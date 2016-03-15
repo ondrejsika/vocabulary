@@ -59,7 +59,7 @@ class Tx(models.Model):
         return '%s %s, %s - %s' % (self.amount, self.account.currency, self.type, self.label)
 
     def save(self, *args, **kwargs):
-        self.drv_balance = self.account.drv_balance
+        self.drv_balance = self.account.drv_balance + self.amount
         ret = super(Tx, self).save(*args, **kwargs)
         self.account.save()
         return ret
