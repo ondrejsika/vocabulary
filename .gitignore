@@ -1,0 +1,11 @@
+# Project
+static
+*.sqlite3
+
+# Python
+.env
+*.pyc
+
+# Editor
+.idea
+*.swp
