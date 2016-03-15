@@ -14,9 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url
+from django.utils.translation import ugettext_lazy
 
-from spending.admin import admin_site
+from django.contrib import admin
+
+
+admin.site.site_title = ugettext_lazy('Spending')
+admin.site.site_header = ugettext_lazy('Spending')
+admin.site.index_title = ugettext_lazy('Spending admininstration')
+
 
 urlpatterns = [
-    url(r'^admin/', include(admin_site.urls)),
+    #url(r'^admin/', include(admin.site.urls)),
+    url(r'^', include(admin.site.urls)),
 ]
