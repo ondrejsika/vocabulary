@@ -1,7 +1,13 @@
+from django.utils.translation import ugettext_lazy
 from django.contrib import admin
 
 from spending.models import Tag, Type, Tx, Account
 
+
+class MyAdminSite(admin.AdminSite):
+    site_title = ugettext_lazy('Spending')
+    site_header = ugettext_lazy('Spending')
+    index_title = ugettext_lazy('Spending admininstration')
 
 
 class TagAdmin(admin.ModelAdmin):
@@ -57,8 +63,9 @@ class TxAdmin(admin.ModelAdmin):
         'type',
     )
 
+admin_site = MyAdminSite()
 
-admin.site.register(Tag, TagAdmin)
-admin.site.register(Type, TypeAdmin)
-admin.site.register(Tx, TxAdmin)
-admin.site.register(Account, AccountAdmin)
+admin_site.register(Tag, TagAdmin)
+admin_site.register(Type, TypeAdmin)
+admin_site.register(Tx, TxAdmin)
+admin_site.register(Account, AccountAdmin)
