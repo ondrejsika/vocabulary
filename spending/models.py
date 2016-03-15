@@ -49,8 +49,8 @@ class Tx(models.Model):
     account = models.ForeignKey(Account)
     type = models.ForeignKey(Type)
     amount = models.FloatField()
-    label = models.CharField(max_length=255, default='')
-    tags = models.ManyToManyField(Tag, blank=True)
+    label = models.CharField(max_length=255, default='', blank=True)
+    # tags = models.ManyToManyField(Tag, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     drv_balance = models.FloatField(null=True, blank=True)
