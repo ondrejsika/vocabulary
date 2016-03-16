@@ -1,6 +1,7 @@
 # Project
 static
 *.sqlite3
+settings_local.py
 
 # Python
 .env

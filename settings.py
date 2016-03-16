@@ -1,4 +1,5 @@
 import os
+import settings_local
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -54,8 +55,12 @@ WSGI_APPLICATION = 'wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': settings_local.DATABASES_ENGINE,
+        'NAME': settings_local.DATABASES_NAME,
+        'USER': settings_local.DATABASES_USER,
+        'PASSWORD': settings_local.DATABASES_PASSWORD,
+        'HOST': settings_local.DATABASES_HOST,
+        'PORT': settings_local.DATABASES_PORT,
     }
 }
 
