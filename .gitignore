@@ -6,6 +6,7 @@ settings_local.py
 # Python
 .env
 *.pyc
+*.egg-info
 
 # Editor
 .idea
