@@ -38,13 +38,18 @@ class Account(models.Model):
         tx_sum = qs.aggregate(balance=models.Sum('amount'))['balance'] or 0
         return self.start_balance + tx_sum
 
+def _get_invoice_default_number():
+    last = Invoice.objects.order_by('created_at').last()
+    if not last:
+        return None
+    return last.number + 1
 
 class Invoice(models.Model):
     user = models.ForeignKey('auth.User')
 
     account = models.ForeignKey(Account)
     amount = models.FloatField()
-    number = models.IntegerField()
+    number = models.IntegerField(default=_get_invoice_default_number)
     created_at = models.DateField(default=datetime.date.today)
     file = models.FileField(upload_to='invoice/invoice/file', blank=True, null=True)
     label = models.CharField(max_length=255, default='', blank=True)
@@ -63,3 +68,4 @@ class Invoice(models.Model):
         if not dont_recalculate_account:
             self.account.save(dont_recalculate_txs=True)
         return ret
+
