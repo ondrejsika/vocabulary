@@ -33,6 +33,7 @@ class InvoiceAdmin(BaseAdmin, admin.ModelAdmin):
         lambda x: x.account.currency,
         'amount',
         'drv_balance',
+        'drv_year_balance',
         'created_at',
         'label',
         lambda x: x.file.name.split('/')[-1],
