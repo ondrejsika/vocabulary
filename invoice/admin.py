@@ -60,7 +60,8 @@ class YearAdmin(BaseAdmin, admin.ModelAdmin):
         'account',
         lambda x: x.account.currency,
         'drv_balance',
-    )
+        lambda x: x.drv_balance - (x.drv_balance * x.fixed_cost_ratio),
+        lambda x: (x.drv_balance - (x.drv_balance * x.fixed_cost_ratio)) * x.tax_ratio)
 
     def formfield_for_foreignkey(self, *args, **kwargs):
         return self.build__formfield_for_foreignkey(YearAdmin)(self, *args, **kwargs)

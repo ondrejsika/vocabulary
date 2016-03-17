@@ -52,6 +52,8 @@ class Year(models.Model):
 
     account = models.ForeignKey(Account)
     year = models.IntegerField()
+    fixed_cost_ratio = models.FloatField(null=True, blank=True)
+    tax_ratio = models.FloatField(null=True, blank=True)
 
     drv_balance = models.FloatField(default=0, blank=True)
 
