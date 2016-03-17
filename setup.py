@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 setup(
     name='spending',
     version='1',
-    description='Stratum server',
+    description='Spending tracker inspired by awesome app Spendee',
     url='https://github.com/ondrejsika/spending',
     author='Ondrej Sika',
     author_email='ondrej@ondrejsika.com',
