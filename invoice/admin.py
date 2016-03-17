@@ -29,11 +29,13 @@ class InvoiceAdmin(BaseAdmin, admin.ModelAdmin):
     list_display = (
         'user',
         'account',
+        'number',
         lambda x: x.account.currency,
         'amount',
         'drv_balance',
         'created_at',
         'label',
+        lambda x: x.file.name.split('/')[-1],
     )
     list_filter = (
         # 'user',
