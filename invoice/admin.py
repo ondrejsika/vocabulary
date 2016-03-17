@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from spending.admin import BaseAdmin
-from invoice.models import Account, Invoice
+from invoice.models import Account, Invoice, Year
 
 
 class AccountAdmin(BaseAdmin, admin.ModelAdmin):
@@ -52,5 +52,22 @@ class InvoiceAdmin(BaseAdmin, admin.ModelAdmin):
         return self.build__get_queryset(InvoiceAdmin)(self, *args, **kwargs)
 
 
+class YearAdmin(BaseAdmin, admin.ModelAdmin):
+    list_display = (
+        'user',
+        'year',
+        'account',
+        lambda x: x.account.currency,
+        'drv_balance',
+    )
+
+    def formfield_for_foreignkey(self, *args, **kwargs):
+        return self.build__formfield_for_foreignkey(YearAdmin)(self, *args, **kwargs)
+
+    def get_queryset(self, *args, **kwargs):
+        return self.build__get_queryset(YearAdmin)(self, *args, **kwargs)
+
+
 admin.site.register(Account, AccountAdmin)
 admin.site.register(Invoice, InvoiceAdmin)
+admin.site.register(Year, YearAdmin)

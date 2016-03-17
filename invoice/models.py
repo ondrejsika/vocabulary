@@ -44,6 +44,23 @@ def _get_invoice_default_number():
         return None
     return last.number + 1
 
+
+class Year(models.Model):
+    user = models.ForeignKey('auth.User')
+
+    account = models.ForeignKey(Account)
+    year = models.IntegerField()
+
+    drv_balance = models.FloatField(null=True, blank=True)
+
+    def __unicode__(self):
+        return '%s %s' % (self.account, self.year)
+
+    def save(self, *args, **kwargs):
+        self.drv_balance = Invoice.objects.filter(drv_year=self).aggregate(sum=models.Sum('amount'))['sum'] or 0
+        return super(Year, self).save(*args, **kwargs)
+
+
 class Invoice(models.Model):
     user = models.ForeignKey('auth.User')
 
@@ -55,11 +72,16 @@ class Invoice(models.Model):
     label = models.CharField(max_length=255, default='', blank=True)
 
     drv_balance = models.FloatField(null=True, blank=True)
+    drv_year = models.ForeignKey(Year, null=True, blank=True)
 
     def __unicode__(self):
         return '%s - %s %s - %s' % (self.number, self.amount, self.account.currency, self.label)
 
     def save(self, *args, **kwargs):
+        self.drv_year, created = Year.objects.get_or_create(year=self.created_at.year, user=self.user,
+                                                            account=self.account)
+        self.drv_year.save()
+
         dont_recalculate_account = kwargs.pop('dont_recalculate_account', False)
         dont_recalculate_balance = kwargs.pop('dont_recalculate_balance', False)
         if not dont_recalculate_balance:
@@ -67,5 +89,7 @@ class Invoice(models.Model):
         ret = super(Invoice, self).save(*args, **kwargs)
         if not dont_recalculate_account:
             self.account.save(dont_recalculate_txs=True)
+
+        self.drv_year.save()
         return ret
 
