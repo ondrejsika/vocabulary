@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 
 setup(
-    name='spending',
+    name='vocabulary',
     version='1',
-    description='Spending tracker inspired by awesome app Spendee',
-    url='https://github.com/ondrejsika/spending',
+    description='Easy way, how to learn vocabulary',
+    url='https://github.com/ondrejsika/vocabulary',
     author='Ondrej Sika',
     author_email='ondrej@ondrejsika.com',
     packages=find_packages(),

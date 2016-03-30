@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from spending.models import Tag, Type, Tx, Account
+from vocabulary.models import Course, Topic, Vocabulary
 
 
 class BaseAdmin(object):
@@ -33,7 +33,7 @@ class BaseAdmin(object):
         return get_queryset
 
 
-class TagAdmin(BaseAdmin, admin.ModelAdmin):
+class CourseAdmin(BaseAdmin, admin.ModelAdmin):
     list_display = (
         'user',
         'name',
@@ -43,15 +43,16 @@ class TagAdmin(BaseAdmin, admin.ModelAdmin):
     )
 
     def formfield_for_foreignkey(self, *args, **kwargs):
-        return self.build__formfield_for_foreignkey(TagAdmin)(self, *args, **kwargs)
+        return self.build__formfield_for_foreignkey(CourseAdmin)(self, *args, **kwargs)
 
     def get_queryset(self, *args, **kwargs):
-        return self.build__get_queryset(TagAdmin)(self, *args, **kwargs)
+        return self.build__get_queryset(CourseAdmin)(self, *args, **kwargs)
 
 
-class TypeAdmin(BaseAdmin, admin.ModelAdmin):
+class TopicAdmin(BaseAdmin, admin.ModelAdmin):
     list_display = (
         'user',
+        'course',
         'name',
     )
     list_filter = (
@@ -59,59 +60,31 @@ class TypeAdmin(BaseAdmin, admin.ModelAdmin):
     )
 
     def formfield_for_foreignkey(self, *args, **kwargs):
-        return self.build__formfield_for_foreignkey(TypeAdmin)(self, *args, **kwargs)
+        return self.build__formfield_for_foreignkey(TopicAdmin)(self, *args, **kwargs)
 
     def get_queryset(self, *args, **kwargs):
-        return self.build__get_queryset(TypeAdmin)(self, *args, **kwargs)
+        return self.build__get_queryset(TopicAdmin)(self, *args, **kwargs)
 
 
-class AccountAdmin(BaseAdmin, admin.ModelAdmin):
+class VocabularyAdmin(BaseAdmin, admin.ModelAdmin):
     list_display = (
         'user',
-        'name',
-        'drv_balance',
-        'currency',
-        'created_at',
+        'topic',
+        'source',
+        'target',
     )
     list_filter = (
         # 'user',
-        'currency',
-        'created_at',
     )
 
     def formfield_for_foreignkey(self, *args, **kwargs):
-        return self.build__formfield_for_foreignkey(AccountAdmin)(self, *args, **kwargs)
+        return self.build__formfield_for_foreignkey(VocabularyAdmin)(self, *args, **kwargs)
 
     def get_queryset(self, *args, **kwargs):
-        return self.build__get_queryset(AccountAdmin)(self, *args, **kwargs)
+        return self.build__get_queryset(VocabularyAdmin)(self, *args, **kwargs)
 
 
-class TxAdmin(BaseAdmin, admin.ModelAdmin):
-    list_display = (
-        'user',
-        'account',
-        lambda x: x.account.currency,
-        'amount',
-        'drv_balance',
-        'created_at',
-        'type',
-        'label',
-    )
-    list_filter = (
-        # 'user',
-        # 'account',
-        # 'account__currency',
-        'created_at',
-        # 'type',
-    )
+admin.site.register(Course, CourseAdmin)
+admin.site.register(Topic, TopicAdmin)
+admin.site.register(Vocabulary, VocabularyAdmin)
 
-    def formfield_for_foreignkey(self, *args, **kwargs):
-        return self.build__formfield_for_foreignkey(TxAdmin)(self, *args, **kwargs)
-
-    def get_queryset(self, *args, **kwargs):
-        return self.build__get_queryset(TxAdmin)(self, *args, **kwargs)
-
-# admin.site.register(Tag, TagAdmin)
-admin.site.register(Type, TypeAdmin)
-admin.site.register(Tx, TxAdmin)
-admin.site.register(Account, AccountAdmin)

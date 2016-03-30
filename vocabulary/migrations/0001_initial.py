@@ -13,18 +13,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Account',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=32)),
-                ('start_balance', models.FloatField(default=0)),
-                ('currency', models.CharField(max_length=5)),
-                ('drv_balance', models.FloatField(null=True, blank=True)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Tag',
+            name='Course',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=32)),
@@ -32,32 +21,22 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Tx',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('amount', models.FloatField()),
-                ('label', models.CharField(max_length=32)),
-                ('drv_balance', models.FloatField(null=True, blank=True)),
-                ('account', models.ForeignKey(to='spending.Account')),
-                ('tags', models.ManyToManyField(to='spending.Tag', blank=True)),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Type',
+            name='Topic',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=32)),
+                ('course', models.ForeignKey(to='vocabulary.Course')),
                 ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
         ),
-        migrations.AddField(
-            model_name='tx',
-            name='type',
-            field=models.ForeignKey(to='spending.Type'),
-        ),
-        migrations.AddField(
-            model_name='tx',
-            name='user',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL),
+        migrations.CreateModel(
+            name='Vocabulary',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('source', models.CharField(max_length=32)),
+                ('target', models.CharField(max_length=32)),
+                ('topic', models.ForeignKey(to='vocabulary.Topic')),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
         ),
     ]

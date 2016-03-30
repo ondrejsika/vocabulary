@@ -20,9 +20,9 @@ from django.utils.translation import ugettext_lazy
 from django.contrib import admin
 
 
-admin.site.site_title = ugettext_lazy('Spending')
-admin.site.site_header = ugettext_lazy('Spending')
-admin.site.index_title = ugettext_lazy('Spending admininstration')
+admin.site.site_title = ugettext_lazy('Vocabulary')
+admin.site.site_header = ugettext_lazy('Vocabulary')
+admin.site.index_title = ugettext_lazy('Vocabulary admininstration')
 
 
 urlpatterns = [
